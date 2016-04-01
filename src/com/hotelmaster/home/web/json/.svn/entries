@@ -1,0 +1,52 @@
+8
+
+dir
+48
+svn://192.168.1.109/coding/project/HotelMaster/src/com/hotelmaster/home/web/json
+svn://192.168.1.109
+
+
+
+2008-06-05T15:24:22.890625Z
+48
+foghost
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+e752da67-8064-8f42-8784-47815797383d
+
+CheckinOrderJson.java
+file
+
+
+
+
+2008-06-05T15:27:24.265625Z
+e7771fdff49036e0396a96e2638c098f
+2008-06-05T15:24:22.890625Z
+48
+foghost
+
+ReservOrderJson.java
+file
+
+
+
+
+2008-06-05T15:27:24.296875Z
+e951d580b5aa72ed9bb71315973522d7
+2008-06-05T15:24:22.890625Z
+48
+foghost
+

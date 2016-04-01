@@ -1,0 +1,19 @@
+body {
+background-color:#93B0CC;
+}
+#login-win .x-window-mc {
+background:#FFFFFF none repeat scroll 0%;
+border:1px solid #EEEEEE;
+}
+#login-logo .x-plain-body {
+background:#F9F9F9 url(../../../images/logo.jpg) no-repeat scroll center;
+}
+#login-form .x-plain-body {
+background:#F9F9F9 none repeat scroll 0%;
+color:#222222;
+padding:5px 35px;
+}
+#login-win .x-window-body {
+background:#FFFFFF none repeat scroll 0% 50%;
+border:1px solid #99BBE8;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="GBK"?>
+<chart caption='2009年住宿率' xAxisName='状态' 
+baseFont='宋体' baseFontSize ='11.5' yAxisName='客户数' showValues='0' decimals='0' formatNumberScale='0'>
+<set label='一月'  value='256' />
+<set label='二月'  value='156' />
+<set label='三月'  value='100' />
+<set label='四月'  value='200' />
+<set label='五月'  value='305' />
+<set label='六月'  value='501' />
+<set label='七月'  value='300' />
+<set label='八月'  value='200' />
+<set label='九月'  value='420' />
+<set label='十月'  value='235' />
+<set label='十一月'  value='267' />
+<set label='十二月'  value='321' />
+</chart>	

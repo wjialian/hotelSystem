@@ -1,0 +1,84 @@
+.icon-checkin{
+	background-image:url(../images/icons/checkin.png) ! important;
+}
+.icon-reserv{
+	background-image:url(../images/icons/reserv.png) ! important;
+}
+.icon-system{
+	background-image:url(../images/icons/system.png) ! important;
+}
+.icon-logout{
+	background-image:url(../images/icons/logout.png) ! important;
+}
+.icon-stat{
+	background-image:url(../images/icons/stat.png) ! important;
+}
+.icon-minus{
+	background-image:url(../images/icons/stat.png) ! important;
+}
+.icon-delete{
+	background-image:url(../images/icons/delete.png) ! important;
+}
+.icon-edit{
+	background-image:url(../images/icons/edit.png) ! important;
+}
+.icon-redo{
+	background-image:url(../images/icons/redo.png) ! important;
+}
+.icon-save{
+	background-image:url(../images/icons/save.png) ! important;
+}
+.icon-roomfilter{
+	background-image:url(../images/icons/filter.png) ! important;
+}
+.icon-roomcatalog{
+	background-image:url(../images/icons/catalog.png) ! important;
+}
+.icon-roomfloor{
+	background-image:url(../images/icons/floor.png) ! important;
+}
+.icon-hotel{
+	background-image:url(../images/icons/hotel.png) ! important;
+}
+.icon-manage{
+	background-image:url(../images/icons/manage.png) ! important;
+}
+.icon-group{
+	background-image:url(../images/icons/group.png) ! important;
+}
+.icon-guestinfo{
+	background-image:url(../images/icons/guestinfo.png) ! important;
+}
+.icon-statchart{
+	background-image:url(../images/icons/statchart.png) ! important;
+}
+.icon-center{
+	background-image:url(../images/icons/center.png) ! important;
+}
+.icon-find{
+	background-image:url(../images/icons/find.png) ! important;
+}
+.settings {
+    background-image:url( ../images/icons/folder_wrench.png ) !important;
+}
+.nav {
+    background-image:url( ../images/icons/folder_go.png ) !important;
+}
+.details .x-btn-text {
+    background-image: url(../images/icons/details.gif);
+}
+.icon-reservin {
+    background-image:url( ../images/icons/reservin.png ) !important;
+}
+.icon-checkininfo {
+    background-image:url( ../images/icons/checkininfo.png ) !important;
+}
+.icon-checkrvinfo {
+    background-image:url( ../images/icons/checkrvinfo.png ) !important;
+}
+.icon-switch {
+    background-image:url( ../images/icons/switch.png ) !important;
+}
+.icon-checkout {
+    background-image:url( ../images/icons/checkout.png ) !important;
+}

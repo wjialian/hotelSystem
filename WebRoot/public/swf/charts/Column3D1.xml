@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="GBK"?>
+<chart caption='单日预定状态图' xAxisName='状态' 
+baseFont='宋体' baseFontSize ='11.5' yAxisName='数量' showValues='0' decimals='0' formatNumberScale='0'>
+<set label='可预定'  value='256' />
+<set label='已预定'  value='156' />
+<set label='已登记'  value='100' />
+</chart>	

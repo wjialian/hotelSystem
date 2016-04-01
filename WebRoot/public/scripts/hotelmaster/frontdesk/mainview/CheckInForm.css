@@ -1,0 +1,9 @@
+.ux-room-details {
+	padding: 10px;
+	font-size:12px;
+    text-align: east; 
+}
+.ux-room-details b{
+	color: #555555;
+    margin-bottom: 4px; 
+}

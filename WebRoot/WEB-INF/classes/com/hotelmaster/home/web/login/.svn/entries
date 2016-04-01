@@ -1,0 +1,40 @@
+8
+
+dir
+48
+svn://192.168.1.109/coding/project/HotelMaster/src/com/hotelmaster/home/web/login
+svn://192.168.1.109
+
+
+
+2008-05-12T18:39:31.671875Z
+34
+foghost
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+e752da67-8064-8f42-8784-47815797383d
+
+UserLoginController.java
+file
+
+
+
+
+2008-05-12T18:39:55.375000Z
+97a9cfca47182683f1fd537e03604219
+2008-05-12T18:39:31.671875Z
+34
+foghost
+

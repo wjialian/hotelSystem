@@ -1,0 +1,40 @@
+.ux-status-view-wrap{
+	float: left; 
+    margin: 4px; 
+    margin-right: 0;
+    padding: 4px;
+	text-align: center; 
+	border:solid 1px #B5B8C8;
+}
+.ux-status-view-room{
+	height:30px;
+	width:55px;
+	padding: 3px;
+}
+.ux-status-view-room .ux-status-view-roomtype{
+	font-size:12px;
+}
+.ux-status-view-wrap .ux-status-view-roompic{
+	background: #dddddd; 
+    padding: 3px; 
+}
+.ux-status-view-wrap .ux-status-view-roompic img{
+	height: 48px; 
+    width: 70px;
+}
+.ux-status-view-roomid{
+	font-size:11px;
+	font-weight:800;
+}
+
+.x-view-over{
+    border:1px solid #dddddd;
+    background: #efefef url(../../resources/images/default/grid/row-over.gif) repeat-x left top;
+	padding: 4px;
+}
+
+.x-view-selected{
+	background: #eff5fb url(../../resources/images/selected.gif) no-repeat right bottom;
+	border:1px solid #99bbe8;
+	padding: 4px;
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+ 	 <!-- ========================= Service BEANS  ========================================= -->
+    <bean name="businessService" class="com.hotelmaster.serviceimpl.BusinessServiceImpl">
+		<property name="roomDao">
+			<ref bean="roomDao"/>
+		</property>
+		<property name="checkinOrderDao">
+			<ref bean="checkinOrderDao"/>
+		</property>
+		<property name="operatorDao">
+			<ref bean="operatorDao"/>
+		</property>
+		<property name="guestDao">
+			<ref bean="guestDao"/>
+		</property>
+		<property name="guestHistoryDao">
+			<ref bean="guestHistoryDao"/>
+		</property>
+		<property name="reservOrderDao">
+			<ref bean="reservOrderDao"/>
+		</property>
+		<property name="balancementDao">
+			<ref bean="balancementDao"/>
+		</property>
+		
+		<property name="baseInfoDao">
+			<ref bean="baseInfoDao"/>
+		</property>
+		<property name="roomCatalogDao">
+			<ref bean="roomCatalogDao"/>
+		</property>
+		<property name="floorDao">
+			<ref bean="floorDao"/>
+		</property>
+		<property name="demandDao">
+			<ref bean="demandDao"/>
+		</property>
+	</bean>
+</beans>
+ 	

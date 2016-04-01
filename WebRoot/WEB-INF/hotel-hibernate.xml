@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+ 	http://www.springframework.org/schema/tx
+ 	http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
+
+	 <!--========================================================================
+        DataSource
+        Using Spring provided DriverManagerDataSource;
+        For deployment, using container-managed JNDI DataSource instead.
+    =========================================================================-->
+								 
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/hotel"/>
+		<property name="username" value="root"/>
+		<property name="password" value=""/> 
+	</bean>
+	
+	 <!-- Using AnnotationSessionFactoryBean -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		 <property name="dataSource" ref="dataSource" />
+		 <property name="annotatedClasses">
+		 	<list>
+		 		<value>com.hotelmaster.po.Room</value>
+		 		<value>com.hotelmaster.po.RoomCatalog</value>
+		 		<value>com.hotelmaster.po.ReservOrder</value>
+		 		<value>com.hotelmaster.po.ReservItem</value>
+		 		<value>com.hotelmaster.po.Operator</value>
+		 		<value>com.hotelmaster.po.GuestHistory</value>
+		 		<value>com.hotelmaster.po.Guest</value>
+		 		<value>com.hotelmaster.po.CheckinOrder</value>
+		 		<value>com.hotelmaster.po.CheckinItem</value>
+		 		<value>com.hotelmaster.po.Balancement</value>
+		 		<value>com.hotelmaster.po.BaseInfo</value>
+		 		<value>com.hotelmaster.po.Floor</value>
+		 		<value>com.hotelmaster.po.Demand</value>
+		 	</list>
+		 </property>
+		 <property name="annotatedPackages">
+            <list>
+                <value>com.hotelmaster.po</value>
+            </list>
+         </property>
+         <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.jdbc.fetch_size">30</prop>
+                <prop key="hibernate.jdbc.batch_size">20</prop>
+                <prop key="hibernate.cache.provider_class">org.hibernate.cache.HashtableCacheProvider</prop>
+            </props>
+        </property>
+        <property name="eventListeners">
+            <map>
+                <entry key="pre-update">
+                    <bean class="org.hibernate.validator.event.ValidatePreUpdateEventListener" />
+                </entry>
+                <entry key="pre-insert">
+                    <bean class="org.hibernate.validator.event.ValidatePreInsertEventListener" />
+                </entry>
+            </map>
+        </property>
+	</bean>
+	<!-- Transaction manager for a single Hibernate SessionFactory (alternative to JTA) -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
+	<!--  -->
+	<tx:annotation-driven transaction-manager="transactionManager"/>
+	<!-- Using HibernateTemplate, and shared by all DAO object because it is thread-safe -->
+    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+        <property name="sessionFactory" ref="sessionFactory" />
+        <property name="fetchSize" value="30" />
+    </bean>
+    
+    
+	<bean id="checkinItemDao" class="com.hotelmaster.daoimpl.CheckinItemDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+    
+    <bean id="checkinOrderDao" class="com.hotelmaster.daoimpl.CheckinOrderDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    
+	<bean id="guestDao" class="com.hotelmaster.daoimpl.GuestDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+    
+    <bean id="guestHistoryDao" class="com.hotelmaster.daoimpl.GuestHistoryDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    
+    <bean id="operatorDao" class="com.hotelmaster.daoimpl.OperatorDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    
+    <bean id="reservItemDao" class="com.hotelmaster.daoimpl.ReservItemDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    
+    <bean id="reservOrderDao" class="com.hotelmaster.daoimpl.ReservOrderDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    
+	<bean id="roomCatalogDao" class="com.hotelmaster.daoimpl.RoomCatalogDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+    
+	<bean id="roomDao" class="com.hotelmaster.daoimpl.RoomDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	<bean id="balancementDao" class="com.hotelmaster.daoimpl.BalancementDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+    <bean id="baseInfoDao" class="com.hotelmaster.daoimpl.BaseInfoDaoImpl">
+    	<property name="hibernateTemplate" ref="hibernateTemplate"/>
+    </bean>
+    <bean id="floorDao" class="com.hotelmaster.daoimpl.FloorDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+	<bean id="demandDao" class="com.hotelmaster.daoimpl.DemandDaoImpl">
+		<property name="hibernateTemplate" ref="hibernateTemplate"/>
+	</bean>
+</beans>

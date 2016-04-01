@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	
+	<!--
+	 - This bean is an explicit URL mapper that is used by the "home" DispatcherServlet
+	 - It is used instead of the default BeanNameUrlHandlerMapping.
+	 -->
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors" ref="openSessionInViewInterceptor"/>
+        <property name="mappings">
+            <props>
+            	<prop key="userLogin.htm">userLoginController</prop>
+            	<prop key="/home.htm">homeController</prop>
+            	<prop key="/frontdesk.htm">frontdeskController</prop>
+            	<prop key="/checkin.htm">checkinController</prop>
+            	<prop key="/guestctrl.htm">guestInforController</prop>
+            	<prop key="/reserv.htm">reservController</prop>
+            	<prop key="/guesthistoryctrl.htm">guestHistoryController</prop>
+            	<prop key="/checkout.htm">checkoutController</prop>
+            	<prop key="/basicsetting.htm">basicSettingController</prop>
+            	<prop key="/business.htm">businessCalculationController</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <!-- openSessionInViewInterceptor -->
+    <bean id="openSessionInViewInterceptor"
+          class="org.springframework.orm.hibernate3.support.OpenSessionInViewInterceptor">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+    
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/pages/"/>
+		<property name="suffix" value=".jsp"/>
+	</bean>
+	
+	<bean id="paraNameResolver" class="org.springframework.web.servlet.mvc.multiaction.ParameterMethodNameResolver">
+        <property name="paramName" value="action"/>
+        <property name="defaultMethodName" value="init"/>
+    </bean>
+    
+    <bean name="guestInforUtil" class="com.hotelmaster.home.web.util.GuestInforUtil">
+	</bean>
+    <!-- ========================= CONTROLLER DEFINITIONS ========================= -->
+	<!-- for message now -->
+	<bean name="userLoginController" class="com.hotelmaster.home.web.login.UserLoginController">
+	<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+	</bean>
+	<bean name="homeController" class="com.hotelmaster.action.HomeController">
+	<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+	</bean>
+	
+	<bean name="frontdeskController" class="com.hotelmaster.action.FrontdeskController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+	
+	<bean name="basicSettingController" class="com.hotelmaster.action.BasicSettingController">
+	<property name="methodNameResolver">
+		<ref bean="paraNameResolver"/>
+	</property>
+	<property name="businessService">
+		<ref bean="businessService"/>
+	</property>
+</bean>
+	
+	<bean name="checkinController" class="com.hotelmaster.action.CheckinController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+	
+	<bean name="checkoutController" class="com.hotelmaster.action.CheckoutController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+	
+	<bean name="guestInforController" class="com.hotelmaster.action.GuestInforController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+		<property name="guestInforUtil">
+			<ref bean="guestInforUtil"/>
+		</property>
+	</bean>
+	
+	<bean name="reservController" class="com.hotelmaster.action.ReservController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+	
+	<bean name="guestHistoryController" class="com.hotelmaster.action.GuestHistoryController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+	
+	<bean name="businessCalculationController" class="com.hotelmaster.action.BusinessCalculationController">
+		<property name="methodNameResolver">
+			<ref bean="paraNameResolver"/>
+		</property>
+		<property name="businessService">
+			<ref bean="businessService"/>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+ 	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- 过滤器链 -->
+    <bean id="filterChainProxy" class="org.acegisecurity.util.FilterChainProxy">
+    	<property name="filterInvocationDefinitionSource">
+            <value>
+                CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
+                PATTERN_TYPE_APACHE_ANT
+                /**=sessionIntegrationFilter,logoutFilter,authenticationFilter,anonymousProcessingFilter,exceptionFilter,securityInterceptor
+            </value>
+        </property>
+    </bean>
+	
+	<!--认证管理器-->
+    <bean id="authenticationManager" class="org.acegisecurity.providers.ProviderManager">
+        <property name="providers">
+            <list>
+                <ref bean="daoAuthenticationProvider" />
+                <ref local="anonymousAuthenticationProvider"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="loggerListener" class="org.acegisecurity.event.authentication.LoggerListener"/>
+    
+	<!-- 基于DAO验证的AuthenticationProvider -->
+	<bean id="daoAuthenticationProvider"
+        class="org.acegisecurity.providers.dao.DaoAuthenticationProvider">
+        <property name="userDetailsService" ref="userDetailsService" />
+    </bean>
+    
+    <bean id="anonymousAuthenticationProvider"
+	      class="org.acegisecurity.providers.anonymous.AnonymousAuthenticationProvider">
+		<property name="key" value="anonymous"/>
+	</bean>
+	<!-- 测试用service 实际中使用Daoservice替代 -->
+	<bean id="userDetailsService" class="com.hotelmaster.home.security.HotelUserDetailService">
+		<property name="operatorDao">
+			<ref bean="operatorDao"/>
+		</property>
+	</bean>
+	<!-- 决策管理器 -->
+    <bean id="accessDecisionManager"
+        class="org.acegisecurity.vote.AffirmativeBased">
+        <property name="decisionVoters">
+            <list>
+                <bean class="org.acegisecurity.vote.RoleVoter" />
+            </list>
+        </property>
+        <property name="allowIfAllAbstainDecisions" value="false" />
+    </bean>
+    
+    <bean id="sessionIntegrationFilter"
+        class="org.acegisecurity.context.HttpSessionContextIntegrationFilter" />
+    
+    <bean id="logoutFilter" class="org.acegisecurity.ui.logout.LogoutFilter">
+        <!-- URL redirected to after logout -->
+        <constructor-arg value="/" />
+        <constructor-arg>
+            <list>
+                <bean class="org.acegisecurity.ui.logout.SecurityContextLogoutHandler" />
+            </list>
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/userLogout.htm" />
+    </bean> 
+    
+    <bean id="authenticationFilter"
+        class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="authenticationFailureUrl" value="/userLogin.htm?login_error=1" />
+        <property name="defaultTargetUrl" value="/frontdesk.htm" />
+        <property name="filterProcessesUrl" value="/j_acegi_security_check" />
+    </bean>
+    
+    <bean id="anonymousProcessingFilter" class="org.acegisecurity.providers.anonymous.AnonymousProcessingFilter">
+		<property name="key" value="anonymous"/>
+		<property name="userAttribute" value="anonymous,ROLE_ANONYMOUS"/>
+	</bean>
+	
+    <!-- 处理登录异常或权限异常的Filter -->
+    	<bean id="exceptionFilter" class="org.acegisecurity.ui.ExceptionTranslationFilter">
+     <!--    出现AuthenticationException时的登录入口 -->
+        <property name="authenticationEntryPoint">
+            <bean class="org.acegisecurity.ui.webapp.AuthenticationProcessingFilterEntryPoint">
+                <property name="loginFormUrl" value="/userLogin.htm" />
+                <property name="forceHttps" value="false" />
+            </bean>
+        </property>
+      <!--   出现AccessDeniedException时的Handler -->
+        <property name="accessDeniedHandler">
+            <bean class="org.acegisecurity.ui.AccessDeniedHandlerImpl"/>
+        </property>
+    </bean>  
+    <!-- 基于URL的安全拦截器 -->
+    <bean id="securityInterceptor"
+        class="org.acegisecurity.intercept.web.FilterSecurityInterceptor">
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="accessDecisionManager" ref="accessDecisionManager" />
+        <property name="objectDefinitionSource">
+            <value>
+                PATTERN_TYPE_APACHE_ANT
+                /index.htm*=ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER
+				/userLogin.htm*=ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER
+				/business.htm*=ROLE_ANONYMOUS,ROLE_ADMIN,ROLE_USER
+				/frontdesk.htm*=ROLE_ADMIN,ROLE_USER
+				/basicsetting.htm*=ROLE_ADMIN
+				/home.htm*=ROLE_ADMIN
+                /admin*=ROLE_ADMIN
+                /user*=ROLE_USER
+            </value>
+        </property>
+    </bean>
+</beans>
+		
