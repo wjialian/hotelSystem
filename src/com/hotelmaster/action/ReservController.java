@@ -1,6 +1,7 @@
 package com.hotelmaster.action;
 
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -78,8 +79,8 @@ public class ReservController extends MultiActionController{
 		JSONArray jsonItems=new JSONArray();
 		//有Bug For input string: ""
 		
-		String toDateString="2016-04-02"+" 12:00:00";
-		toDate=Timestamp.valueOf(toDateString);
+		/*String toDateString="";
+		toDate=Timestamp.valueOf(toDateString);*/
 		
 		Page page=new Page(Integer.parseInt(pageStart),Integer.parseInt(pageLimit));
 		List<Room> roomList=businessService.findAvailReservRooms(fromDate,toDate
@@ -100,6 +101,7 @@ public class ReservController extends MultiActionController{
 		
 		return null;
 	}
+	@SuppressWarnings("deprecation")
 	public ModelAndView findAvailRoomsInJson(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		log.info("Someone come from ip address <"
@@ -128,9 +130,10 @@ public class ReservController extends MultiActionController{
 		}
 		JSONArray jsonItems=new JSONArray();
 		//有Bug For input string: ""
-		Page page=new Page(Integer.parseInt(pageStart),Integer.parseInt(pageLimit));
-		List<Room> roomList=businessService.findAvailReservRooms(fromDate,toDate
-					,rmCatalog,page);//出错处理
+		Page page=new Page(0);
+		/*List<Room> roomList=businessService.findAvailReservRooms(new Timestamp(2016, 03, 28, 0, 0, 0, 0),new Timestamp(2016, 03, 29, 0, 0, 0, 0)
+					,rmCatalog,page);*/
+		List<Room> roomList=businessService.findAvailReservRooms(fromDate,toDate,"全部",page);
 		Iterator i=roomList.iterator();
 		Room room=new Room();
 		while(i.hasNext()){
@@ -209,6 +212,39 @@ public class ReservController extends MultiActionController{
 				+ request.getRemoteAddr() + ">");
 		System.out.println("reach ReservController createUpdateReserv()");
 		
+		request.setCharacterEncoding("UTF-8");
+		response.setContentType("text/json;charset=utf-8");
+		String roomJson=(String) request.getParameter("json").trim();
+		JSONArray jsonArray=JSONArray.fromObject(roomJson);//[{},{}]	
+		Iterator iterator=jsonArray.iterator();
+		JSONObject jsonObject=new JSONObject();
+		/*while(iterator.hasNext()){
+			jsonObject=JSONObject.fromObject(iterator.next());//{}
+			Room room=new Room();
+			ReservOrder reservOrder=new ReservOrder();
+			reservOrder.setRoGuestName(roGuestName);
+			reservOrder.setRoTelphone(roTelphone);
+			reservOrder.setRoInDateTime(Timestamp.valueOf(roInDateTime));
+			reservOrder.setRoPreOutDateTime(Timestamp.valueOf(roPreOutDateTime));
+			reservOrder.setRoPaidMoney(new BigDecimal(roPaidMoney));
+			reservOrder.setRoReservModel("网上预订");
+			reservOrder.setRoGuestCardCatalog("身份证");
+			reservOrder.setRoGuestCardId(roGuestCardId);
+			room=businessService.findRoomById(roomId);
+			ReservItem reservItem=new ReservItem();
+			reservItem.setRoom(room);
+			List<ReservItem> reservItemList=new ArrayList();
+			reservItemList.add(reservItem);
+			reservOrder.setRoOrderId(createReservOrderId());
+			businessService.createReservOrder(reservOrder, reservItemList);
+			room = businessService.findRoomById(jsonObject.getString("rmId"));
+			boolean isDelete = businessService.deleteRoom(room);
+			if (!isDelete) {
+				log.info("Err on delete guest");
+				response.getWriter().write("{failure:true,reason:'不存在要删除的房间'}");
+			}
+		}
+		
 		ReservOrder reservOrder=ReservOrderUtil.createReservOrder(request);
 		//  应该多个ReservOrder 对应多个客户
 		//  roGuestName;客人姓名  roTelphone;电话  roInDateTime;预计住店日期 roPreOutDateTime;预计离店时间 roReservModel;预定方式roPaidMoney;已付押金
@@ -242,7 +278,7 @@ public class ReservController extends MultiActionController{
 			log.info("预定信息创建成功");
 			request.setCharacterEncoding("UTF-8");   
             response.setContentType("text/json;charset=utf-8"); 
-            response.getWriter().write("{success: true}");
+            response.getWriter().write("{success: true}");*/
 	
 		return null;
 	}
