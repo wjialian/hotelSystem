@@ -62,7 +62,8 @@ public class ReservController extends MultiActionController{
 		}
 		if(request.getParameter("to")!=null){
 			String toDateString=(String) request.getParameter("to").trim();
-			toDateString=toDateString+" 12:00:00";
+			//toDateString=toDateString+" 12:00:00";2016-04-01
+			toDateString="2016-04-02"+" 12:00:00";
 			toDate=Timestamp.valueOf(toDateString);
 		}
 		if(request.getParameter("catalog")!=null){
@@ -76,6 +77,10 @@ public class ReservController extends MultiActionController{
 		}
 		JSONArray jsonItems=new JSONArray();
 		//有Bug For input string: ""
+		
+		String toDateString="2016-04-02"+" 12:00:00";
+		toDate=Timestamp.valueOf(toDateString);
+		
 		Page page=new Page(Integer.parseInt(pageStart),Integer.parseInt(pageLimit));
 		List<Room> roomList=businessService.findAvailReservRooms(fromDate,toDate
 					,rmCatalog,page);//出错处理

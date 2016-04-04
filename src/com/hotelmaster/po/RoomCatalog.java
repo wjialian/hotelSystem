@@ -16,8 +16,8 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="tb_roomcatalog")
 public class RoomCatalog {
 	private String rcId;				//客房类型编号
-	private String rcName;				//客房类型名称
-	private Integer rcBedNumber;		//床位数
+	private String rcName;				//客房类型代号
+	private String rcBedNumber;		    //客房类型名称
 	private BigDecimal rcPrePrice;		//预定价格
 	private BigDecimal rcPreDiscount;	//预定折扣
 	private BigDecimal rcHourBasePrice;	//计时最低价
@@ -41,10 +41,10 @@ public class RoomCatalog {
 		this.rcName = rcName;
 	}
 	@Column(nullable=false)
-	public Integer getRcBedNumber() {
+	public String getRcBedNumber() {
 		return rcBedNumber;
 	}
-	public void setRcBedNumber(Integer rcBedNumber) {
+	public void setRcBedNumber(String rcBedNumber) {
 		this.rcBedNumber = rcBedNumber;
 	}
 	@Column(nullable=false)

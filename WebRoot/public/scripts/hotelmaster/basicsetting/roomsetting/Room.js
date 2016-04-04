@@ -337,10 +337,11 @@ Ext.namespace("Neo.basicSetting");
 								console.log(record.data);
 								this.jsonData = Ext.util.JSON.encode(record.data);
 						      	Ext.Ajax.request({
-								   url: 'http://localhost:8080/mrcode/room/updateRoomInfo',
+								   url: 'http://localhost:8080/MrCode/room/updateRoomInfo',
 								   success: function(){
 								   		console.log("success");
-								   		ds.reload();
+								   		//ds.reload();
+								   		Ext.Msg.alert("成功","已成功将房间信息发送至码团.");
 								   },
 								   failure: function(){
 								   	console.log("failure");
@@ -354,11 +355,12 @@ Ext.namespace("Neo.basicSetting");
 						         record = rs;
 								 this.jsonData = Ext.util.JSON.encode(record.data);
 						      	　Ext.Ajax.request({
-						      		url: 'http://localhost:8080/FoodProject3.0/supply/m/toCompanyIndex?sid=1',
+						      		url: 'http://localhost:8080/MrCode/room/updateRoomInfo',
 								   //url: 'basicsetting.htm?action=dealRoomUpdateRequest',
 								   success: function(){
 								   		console.log("success");
-								   		ds.reload();
+								   		//ds.reload();
+								   		Ext.Msg.alert("成功","已成功将房间信息发送至码团.");
 								   },
 								   failure: function(){
 								   	console.log("failure");

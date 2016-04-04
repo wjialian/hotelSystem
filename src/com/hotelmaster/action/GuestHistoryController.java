@@ -200,10 +200,15 @@ public class GuestHistoryController extends MultiActionController {
 			HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("utf-8");
 		response.setContentType("application/json;charset=utf-8");
-		String dateString=(String) request.getParameter("date").trim();
+		String time=(String) request.getParameter("time").trim();
 		String name=(String) request.getParameter("name").trim();
-		String detail=(String) request.getParameter("detail").trim();
-		
+		String detail=(String) request.getParameter("demand").trim();
+		//time.replaceFirst(regex, replacement)
+		String year = time.substring(0, time.indexOf("年")-1);
+		String month = time.substring(time.indexOf("年")+1, time.indexOf("月")-1);
+		String day = time.substring(time.indexOf("月")+1, time.indexOf("日")-1);
+		String hour = time.substring(time.indexOf("日")+1);
+		String dateString = "";
 		Timestamp date=null;
 		date=Timestamp.valueOf(dateString);
 		

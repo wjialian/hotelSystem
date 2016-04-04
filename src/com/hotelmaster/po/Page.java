@@ -4,7 +4,7 @@ package com.hotelmaster.po;
  */
 public class Page {
 
-    public static final int DEFAULT_PAGE_SIZE = 10;
+    public static final int DEFAULT_PAGE_SIZE = 100;
 
     private int pageIndex;
     private int pageSize;

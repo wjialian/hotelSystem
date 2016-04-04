@@ -34,7 +34,7 @@ Ext.namespace("Neo.basicSetting");
         	sm
         ,{
            id:'rcName',
-           header: "房间类别名称",
+           header: "房间类别代号",
            dataIndex: 'rcName',
            width: 220,
            align: 'center',
@@ -42,10 +42,10 @@ Ext.namespace("Neo.basicSetting");
                allowBlank: false
            })
         },{
-           header: "床数",
+           header: "房间类别名称",
            dataIndex: 'rcBedNumber',
-           width: 100,
-           align: 'right',
+           width: 200,
+           align: 'center',
            editor: new fm.TextField({
                allowBlank: false
            })
@@ -108,8 +108,8 @@ Ext.namespace("Neo.basicSetting");
 		            ,handler : function(){
 		                	var p = new Plant({
 		                		'rcId' : '0'
-					           ,'rcName' : '标准间'
-					           ,'rcBedNumber': 0
+					           ,'rcName' : '000'
+					           ,'rcBedNumber': '标准间'
 					           ,'rcPrePrice' : 0
 					           ,'rcPreDiscount' : 0
 					           ,'rcHourBasePrice' : 0
@@ -216,10 +216,10 @@ Ext.namespace("Neo.basicSetting");
 								console.log(record.data);
 								this.jsonData = Ext.util.JSON.encode(record.data);
 						      	Ext.Ajax.request({
-								   url: 'http://localhost:8080/FoodProject3.0/supply/m/toCompanyIndex?sid=1',
+								   url: 'http://localhost:8080/MrCode/room/updateRoomTypeInfo',
 								   success: function(){
 								   		console.log("success");
-								   		ds.reload();
+								   		Ext.Msg.alert("成功","已成功将房间类型信息发送至码团.");
 								   },
 								   failure: function(){
 								   	console.log("failure");
@@ -233,10 +233,10 @@ Ext.namespace("Neo.basicSetting");
 						         record = rs;
 								 this.jsonData = Ext.util.JSON.encode(record.data);
 						      	　Ext.Ajax.request({
-								   url: 'http://localhost:8080/FoodProject3.0/supply/m/toCompanyIndex?sid=1',
+								   url: 'http://localhost:8080/MrCode/room/updateRoomTypeInfo',
 								   success: function(){
 								   		console.log("success");
-								   		ds.reload();
+								   		Ext.Msg.alert("成功","已成功将房间类型信息发送至码团.");
 								   },
 								   failure: function(){
 								   	console.log("failure");
