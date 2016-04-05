@@ -674,6 +674,7 @@ Neo.frontdesk.CheckInForm = Ext.extend(Ext.FormPanel,{
 				)
 				Ext.Ajax.request({
 					   url: 'http://localhost:8080/FoodProject3.0/supply/m/toCompanyIndex?sid=1',
+					   params:{roomDataes:rdsjson},
 					   success: function(){
 					   		console.log("success");
 					   		ds.reload();

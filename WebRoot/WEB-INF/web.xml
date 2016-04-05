@@ -39,7 +39,6 @@
       <param-name>log4jRefreshInterval</param-name>
       <param-value>60000</param-value>
     </context-param>  
-    
     <!-- Acegi Ajax过滤器 -->
 	<filter>    
         <filter-name>acegiAjaxFilter</filter-name>    

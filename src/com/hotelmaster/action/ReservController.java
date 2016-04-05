@@ -2,6 +2,7 @@ package com.hotelmaster.action;
 
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -215,36 +216,90 @@ public class ReservController extends MultiActionController{
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/json;charset=utf-8");
 		String roomJson=(String) request.getParameter("json").trim();
-		JSONArray jsonArray=JSONArray.fromObject(roomJson);//[{},{}]	
+		System.out.println("-----"+roomJson);
+		JSONObject jsonObject = JSONObject.fromObject(roomJson);
+
+		
+		
+        JSONArray jsonArray = JSONArray.fromObject(jsonObject.get("passwords"));
+		
+        String depositS = jsonObject.getString("deposit").trim();
+		Float depositF = Float.parseFloat(depositS);
+		depositF = depositF/jsonArray.size();
+		depositS = depositF+"";
+
 		Iterator iterator=jsonArray.iterator();
-		JSONObject jsonObject=new JSONObject();
-		/*while(iterator.hasNext()){
-			jsonObject=JSONObject.fromObject(iterator.next());//{}
-			Room room=new Room();
+		while(iterator.hasNext()){//每条order循环
+			jsonObject=JSONObject.fromObject(iterator.next());//Object java.util.Iterator.next()
+
+			Room room=new Room();//每条订单对应一个房间room对应一个reservItem
 			ReservOrder reservOrder=new ReservOrder();
-			reservOrder.setRoGuestName(roGuestName);
-			reservOrder.setRoTelphone(roTelphone);
-			reservOrder.setRoInDateTime(Timestamp.valueOf(roInDateTime));
-			reservOrder.setRoPreOutDateTime(Timestamp.valueOf(roPreOutDateTime));
-			reservOrder.setRoPaidMoney(new BigDecimal(roPaidMoney));
-			reservOrder.setRoReservModel("网上预订");
-			reservOrder.setRoGuestCardCatalog("身份证");
-			reservOrder.setRoGuestCardId(roGuestCardId);
-			room=businessService.findRoomById(roomId);
 			ReservItem reservItem=new ReservItem();
-			reservItem.setRoom(room);
 			List<ReservItem> reservItemList=new ArrayList();
+			
+			JSONArray contactorsArray = JSONArray.fromObject(jsonObject.get("contactors"));
+			JSONObject contactorsObject = contactorsArray.getJSONObject(0);//数组大小恒唯一
+			
+			String name=contactorsObject.getString("name");//预订人信息
+			String identityCard=contactorsObject.getString("identityCard");
+			String phoneNumber=contactorsObject.getString("phoneNumber");
+			reservOrder.setRoGuestName(name);
+			reservOrder.setRoTelphone(phoneNumber);
+			reservOrder.setRoGuestCardCatalog("identityCard");
+			reservOrder.setRoGuestCardId(identityCard);
+			reservOrder.setRoGuestGender("male");
+			reservOrder.setRoEmail("");
+			reservOrder.setRoFax("");
+		
+			JSONArray roomArray = JSONArray.fromObject(jsonObject.get("room"));
+			JSONObject roomObject = roomArray.getJSONObject(0);//数组大小恒唯一
+				
+			String roomNumber=roomObject.getString("roomNumber");//房间信息
+			room=businessService.findRoomById(roomNumber);
+			room.setRmState(1);
+			businessService.updateRoom(room);
+			
+			String beginTime = jsonObject.getString("estimatedTime").trim();//开始时间
+			String endTime = jsonObject.getString("endTime").trim();//离开时间
+			beginTime = beginTime.replaceAll("00:00:00", "18:00:00");
+			endTime = endTime.replaceAll("00:00:00", "12:00:00");
+			String createTime = jsonObject.getString("beginTime").trim();//创建预订时间
+			reservOrder.setRoInDateTime(Timestamp.valueOf(beginTime));
+			reservOrder.setRoPreOutDateTime(Timestamp.valueOf(endTime));
+			reservOrder.setRoCreateTime(Timestamp.valueOf(createTime));
+			reservOrder.setRoEarliestTime(Time.valueOf("12:00:00"));
+			reservOrder.setRoLatestTime(Time.valueOf("12:00:00"));
+			reservOrder.setRoPaidMoney(new BigDecimal(depositS));
+			reservOrder.setRoReservModel("reservByMrCode");
+			reservOrder.setRoOperator("Admin");
+			reservOrder.setRoPaymentModel("");
+			reservOrder.setRoTotalRate(new BigDecimal(depositS));
+			reservOrder.setRoOrderId("RO00000001");
+			reservOrder.setRoPreAssignRoom("");
+			reservOrder.setRoGroupName("");
+			reservOrder.setRoRemark("");
+			reservOrder.setRoReservState("1");
+			
+			
+			reservItem.setRoom(room);
+			reservItem.setRimInDateTime(Timestamp.valueOf(beginTime));
+			reservItem.setRimOutDateTime(Timestamp.valueOf(endTime));
 			reservItemList.add(reservItem);
 			reservOrder.setRoOrderId(createReservOrderId());
 			businessService.createReservOrder(reservOrder, reservItemList);
-			room = businessService.findRoomById(jsonObject.getString("rmId"));
-			boolean isDelete = businessService.deleteRoom(room);
-			if (!isDelete) {
-				log.info("Err on delete guest");
-				response.getWriter().write("{failure:true,reason:'不存在要删除的房间'}");
-			}
+			
+
 		}
-		
+		request.setCharacterEncoding("UTF-8");   
+        response.setContentType("text/json;charset=utf-8"); 
+        response.getWriter().write("{success: true}");
+		/*			room = businessService.findRoomById(jsonObject.getString("rmId"));
+		boolean isDelete = businessService.deleteRoom(room);
+		if (!isDelete) {
+			log.info("Err on delete guest");
+			response.getWriter().write("{failure:true,reason:'不存在要删除的房间'}");
+		}*/
+		/*
 		ReservOrder reservOrder=ReservOrderUtil.createReservOrder(request);
 		//  应该多个ReservOrder 对应多个客户
 		//  roGuestName;客人姓名  roTelphone;电话  roInDateTime;预计住店日期 roPreOutDateTime;预计离店时间 roReservModel;预定方式roPaidMoney;已付押金

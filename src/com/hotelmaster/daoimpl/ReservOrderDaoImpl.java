@@ -46,9 +46,9 @@ public class ReservOrderDaoImpl extends GenericHibernateDao<ReservOrder> impleme
 		Timestamp curDate=new Timestamp(tCal.getTime().getTime());
 		return queryForList(
 				"select count(*)" +
-				"from ReservOrder reservOrder where reservOrder.roReservState in ('预定中','已确认') " +
+				"from ReservOrder reservOrder where reservOrder.roReservState in ('预定中','已确认','1') " +
 				"and reservOrder.roInDateTime>?"
-				,"from ReservOrder reservOrder where reservOrder.roReservState in ('预定中','已确认') " +
+				,"from ReservOrder reservOrder where reservOrder.roReservState in ('预定中','已确认','1') " +
 				"and reservOrder.roInDateTime>?"
 				,new Object[]{curDate}
 				,page);
@@ -116,7 +116,7 @@ public class ReservOrderDaoImpl extends GenericHibernateDao<ReservOrder> impleme
 
 	public ReservOrder findReservOrderByRmId(String rmId) {
 		List<ReservItem> reservItemList=hibernateTemplate.find("from ReservItem as item where item.room.rmId=? " +
-				"and item.rimState in ('预定中','已确认') order by item.rimInDateTime desc",rmId);
+				"and item.rimState in ('预定中','已确认','1') order by item.rimInDateTime desc",rmId);
 		if(reservItemList.size()>0){
 			ReservItem reservItem=reservItemList.get(0);
 			return reservItem.getReservOrder();
