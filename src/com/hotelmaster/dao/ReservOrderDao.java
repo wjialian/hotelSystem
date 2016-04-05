@@ -16,4 +16,5 @@ public interface ReservOrderDao extends GenericDao<ReservOrder>{
 	void deleteReservOrder(ReservOrder reservOrder,List<ReservItem> reservItemList);
 	void updateReservOrder(ReservOrder reservOrder,List<ReservItem> reservItemList);
 	void deleteRerservOrderItem(String roId);
+	public List<ReservOrder> findReservByMrCodeId(String mrcodeid) ;
 }

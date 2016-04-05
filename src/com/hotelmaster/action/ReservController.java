@@ -224,6 +224,7 @@ public class ReservController extends MultiActionController{
         JSONArray jsonArray = JSONArray.fromObject(jsonObject.get("passwords"));
 		
         String depositS = jsonObject.getString("deposit").trim();
+		//String orderCode = jsonObject.getString("orderCode").trim();
 		Float depositF = Float.parseFloat(depositS);
 		depositF = depositF/jsonArray.size();
 		depositS = depositF+"";
@@ -274,7 +275,8 @@ public class ReservController extends MultiActionController{
 			reservOrder.setRoOperator("Admin");
 			reservOrder.setRoPaymentModel("");
 			reservOrder.setRoTotalRate(new BigDecimal(depositS));
-			reservOrder.setRoOrderId("RO00000001");
+			//reservOrder.setRoOrderId(orderCode);
+			reservOrder.setRoOrderId("1111110405");
 			reservOrder.setRoPreAssignRoom("");
 			reservOrder.setRoGroupName("");
 			reservOrder.setRoRemark("");
@@ -337,6 +339,46 @@ public class ReservController extends MultiActionController{
 	
 		return null;
 	}
+	/**
+	 * 
+	 * 码团更新预定信息
+	 *
+	 * @param request
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
+	public ModelAndView updateReservByMoCode(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		log.info("Someone come from ip address <"
+				+ request.getRemoteAddr() + ">");
+		System.out.println("reach ReservController updateReserv()");
+		
+		ReservOrder newReservOrder=ReservOrderUtil.createReservOrder(request);
+		String rooms=(String) request.getParameter("roomDataes").trim();
+		JSONArray jsonArray=JSONArray.fromObject(rooms);//[{},{}]	
+		Iterator iterator=jsonArray.iterator();
+		JSONObject jsonObject=new JSONObject();
+		
+		String mrcodeid="";
+		String depositS="";
+		List<ReservItem> reservItemList=new ArrayList();
+		List<ReservOrder> reservOrderlist =businessService.findReservByMrCodeId(mrcodeid);
+		for(ReservOrder ro : reservOrderlist){
+			ro.setRoPaidMoney(new BigDecimal(depositS));
+			reservItemList = businessService.findReservItemByOrder(ro);
+			businessService.updateReservOrder(ro, reservItemList);
+		}
+
+		
+		log.info("预定信息更新成功");
+		request.setCharacterEncoding("UTF-8");   
+        response.setContentType("text/json;charset=utf-8"); 
+        response.getWriter().write("{success: true}");
+		return null;
+	}
+	
+	
 	/**
 	 * 
 	 * 更新预定信息

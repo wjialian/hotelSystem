@@ -64,6 +64,7 @@ public interface BusinessService {
 	public GuestHistory queryHistoryInfo(String gtId);
 	public void createGuestHistory(GuestHistory guestHistory);
 	
+	public List<ReservOrder> findReservByMrCodeId(String mrcodeid);
 	List<ReservOrder> findAvailReservOrders(Page page);
 	List<ReservOrder> findTodayReservOrders();
 	ReservOrder findReservById(String roId);

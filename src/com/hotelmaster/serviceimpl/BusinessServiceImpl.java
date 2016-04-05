@@ -255,6 +255,13 @@ public class BusinessServiceImpl implements BusinessService{
 	public ReservOrder findReservById(String roId) {
 		return reservOrderDao.query(roId);
 	}
+	
+	/**
+	 * 根据码团订单查询酒店订单
+	 */
+	public List<ReservOrder> findReservByMrCodeId(String mrcodeid) {
+		return reservOrderDao.findReservByMrCodeId(mrcodeid);
+	}
 	/**
 	 * 查找预定单对应的预定项信息
 	 */

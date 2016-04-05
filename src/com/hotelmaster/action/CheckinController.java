@@ -118,7 +118,7 @@ public class CheckinController extends MultiActionController {
 		log.info("Someone come from ip address <"
 				+ request.getRemoteAddr() + ">");
 		System.out.println("reach checkinController reservInLoad()");
-		if(request.getParameter("roId")!=null){
+		if(request.getParameter("roId")!=null&&(String)request.getParameter("roId").trim()!=""){
 			String roId=(String)request.getParameter("roId").trim();
 			ReservOrder reservOrder=businessService.findReservById(roId);
 			CheckinOrderJson checkinOrderJson=new CheckinOrderJson(reservOrder);
@@ -129,6 +129,8 @@ public class CheckinController extends MultiActionController {
 			request.setCharacterEncoding("utf-8");   
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();
+			
+			checkin(request, response);
 			out.print(jsonBack);
 		}else if(request.getParameter("rmId")!=null){
 			String rmId=(String)request.getParameter("rmId").trim();
@@ -140,6 +142,8 @@ public class CheckinController extends MultiActionController {
 			request.setCharacterEncoding("utf-8");   
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();
+			
+			checkin(request, response);
 			out.print(jsonBack);
 		}
 		else{
@@ -148,7 +152,7 @@ public class CheckinController extends MultiActionController {
 		return null;
 	}
 
-	/**
+	/**获取登记项信息-->预定入住登记信息加载
 	 * 
 	 * 获取登记项信息(房间)
 	 *
@@ -177,6 +181,9 @@ public class CheckinController extends MultiActionController {
 			ReservOrder reservOrder=businessService.findReservOrderByRmId(rmId);
 			CheckinOrderJson checkinOrderJson=new CheckinOrderJson(reservOrder);
 			JSONObject jsonBack=checkinOrderJson.getReservItemJsonObject();
+			
+			
+			
 			System.out.println(jsonBack);
 			request.setCharacterEncoding("utf-8");   
 			response.setContentType("application/json;charset=utf-8");

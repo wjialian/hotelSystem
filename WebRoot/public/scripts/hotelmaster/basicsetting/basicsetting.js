@@ -26,8 +26,6 @@ Ext.onReady(function(){
                 text: '客房设置'
             },{
                 text: '客房类型设置'
-            },{
-                text: '楼层设置'
             }
         ]
     });
@@ -46,8 +44,6 @@ Ext.onReady(function(){
 	                text: '客房设置'
 	            },{
 	                text: '客房类型设置'
-	            },{
-	                text: '楼层设置'
 	            }
 	        ]
 	    }),

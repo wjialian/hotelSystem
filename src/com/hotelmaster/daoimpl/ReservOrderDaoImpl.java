@@ -54,6 +54,11 @@ public class ReservOrderDaoImpl extends GenericHibernateDao<ReservOrder> impleme
 				,page);
 	}
 	
+	public List<ReservOrder> findReservByMrCodeId(String mrcodeid) {
+		List<ReservOrder> reservOrderList=hibernateTemplate.find("from ReservOrder reservOrder where reservOrder.roOrderId=?",mrcodeid);
+		return reservOrderList;
+	}
+	
 	public List<ReservOrder> findTodayReservOrders() {
 		Calendar tCal = Calendar.getInstance();
 		tCal.set(tCal.HOUR_OF_DAY, 12);
