@@ -114,25 +114,7 @@ Ext.onReady(function(){
 								    }
 				                }
 				               
-				            },{
-				                text: '楼层设置'
-					                ,handler:function(){
-					                	this.tabpanel = Ext.getCmp('center-tab');
-					                	var tab = Ext.getCmp('floor-tab');
-										if(tab){
-												this.tabpanel.setActiveTab(tab);
-											}
-									    else {
-							                	var p = this.tabpanel.add(new Neo.basicSetting.FloorData({
-												title:'楼层设置'
-												,id:'floor-tab'
-												,closable:true
-												})
-											);
-										  this.tabpanel.setActiveTab(p);
-									    }
-					                }
-					            }
+				            }
 				        ]
 				    }),
 			        iconCls:'nav',
