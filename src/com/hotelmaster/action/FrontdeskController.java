@@ -79,6 +79,7 @@ public class FrontdeskController extends MultiActionController {
 		List<Room> reservedRoomList=businessService.findReservedRooms();
 		for(Room item :reservedRoomList){
 			ReservOrder reservOrder=businessService.findReservOrderByRmId(item.getRmId());
+			if(reservOrder!=null){
 			Timestamp roInDateTime=reservOrder.getRoInDateTime();
 			String roInDateTimeString=String.valueOf(
 				new SimpleDateFormat("yyyy-MM-dd").format(roInDateTime)
@@ -90,6 +91,7 @@ public class FrontdeskController extends MultiActionController {
 			if(!roInDateTimeString.equals(todayTimeString)){
 				item.setRmState(0);
 				businessService.updateRoom(item);
+			}
 			}
 		}
 		//2:返回当前操作员信息

@@ -650,27 +650,33 @@ Neo.frontdesk.CheckInForm = Ext.extend(Ext.FormPanel,{
 			//console.log(this.roomsGrid.store.getAt(i).data);
 		}
 		var rdsjson=Ext.util.JSON.encode(rds);
-		this.getForm().submit({
+		
+		var i = document.createElement("input"); 
+		i.type = "hidden"; 
+		i.value = rdsjson; 
+		i.name = "roomDataes"; 
+		document.getElementById("ext-gen228").appendChild(i); 
+		document.getElementById("ext-gen228").action = 'checkin.htm?action=checkin';
+
+		Ext.Msg.alert('提示', '登记已成功, 码团密码已生效！'
+				,this.updateRmView.createDelegate(this,[],true)							
+		)
+		Ext.Ajax.request({
+			   url: 'http://localhost:8080/MrCode/room/activePassword',
+			   params:{rooms:rdsjson},
+			   success: function(){
+			   		console.log("success");
+			   }
+		});
+		document.getElementById("ext-gen228").submit();
+/*		this.getForm().submit({
 			url:'checkin.htm?action=checkin'
 			,params:{roomDataes:rdsjson}
 			,method:'POST'
 			,scope:this
-			,success:function(){
-				/*Ext.Msg.show({
-					title:'提示'
-					,msg: '登记已成功'
-					,buttons: Ext.Msg.YES
-					,fn:this.updateRmView.createDelegate(this,[],true)
-					,animEl: 'elId'
-					,icon: Ext.MessageBox.INFO
-				});*/
+			,success:function(){		
 				Ext.Msg.alert('提示', '登记已成功, 码团密码已生效！'
-						,this.updateRmView.createDelegate(this,[],true)
-						
-						/*function(){
-							console.log('checkin success');
-							//this.updateRmView();
-						}.createDelegate(this,[],true)*/
+						,this.updateRmView.createDelegate(this,[],true)							
 				)
 				Ext.Ajax.request({
 					   url: 'http://localhost:8080/FoodProject3.0/supply/m/toCompanyIndex?sid=1',
@@ -693,11 +699,9 @@ Neo.frontdesk.CheckInForm = Ext.extend(Ext.FormPanel,{
                 if(action.failureType == 'client'){
                 	Ext.ux.Toast.msg('提示','登记信息不正确，请核对后重新操作');
                 }
-                /*else{ 
-                    Ext.Msg.alert('警告!', '无法连接到服务器: ' + action.response.responseText ); 
-                }*/
+
 			}
-		})
+		})*/
 	}
 	,onCheckOutBtnClick:function(){
 		this.infoState='checkout';

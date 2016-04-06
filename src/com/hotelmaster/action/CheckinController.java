@@ -49,7 +49,7 @@ public class CheckinController extends MultiActionController {
 									createCheckinOrder(request);//创建入住登记订单
 		String rooms=(String) request.getParameter("roomDataes").trim();//获得入住房间信息
 		JSONArray jsonArray=JSONArray.fromObject(rooms);//转换成JSON数组
-		Iterator iterator=jsonArray.iterator();			//获得数组迭代器
+		Iterator iterator=jsonArray.iterator();				//获得数组迭代器
 		JSONObject jsonObject=new JSONObject();			//新建JSON对象
 		List<CheckinItem> checkinItemList=new ArrayList();//新建入住信息列表
 		while(iterator.hasNext()){						//遍历JSON数组
@@ -67,15 +67,17 @@ public class CheckinController extends MultiActionController {
 		checkinOrder.setCioState("已入住");				//设置登记状态
 		checkinOrder.setCioGuestCatalog("散客");			//设置客人类别
 		checkinOrder.setCioOrderId(createCheckinOrderId());//设置订单编号
-		if(businessService.createCheckinOrder
+		
+		businessService.createCheckinOrder(checkinOrder,checkinItemList);
+/*		if(businessService.createCheckinOrder
 						(checkinOrder,checkinItemList)){//创建订单成功
             response.getWriter().write("{success: true}");//输出成功JSON字符串
 		}else
 		{
 			response.getWriter().write("" +
 					"{errors:'登记信息添加失败，请重新尝试!'}");//输出错误JSON字符串
-		}
-		return null;
+		}*/
+		return new ModelAndView("frontdesk");
 	}
 	/**
 	 * 
@@ -130,7 +132,7 @@ public class CheckinController extends MultiActionController {
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();
 			
-			checkin(request, response);
+			//checkin(request, response);
 			out.print(jsonBack);
 		}else if(request.getParameter("rmId")!=null){
 			String rmId=(String)request.getParameter("rmId").trim();
@@ -139,11 +141,12 @@ public class CheckinController extends MultiActionController {
 			JSONObject jsonBack=checkinOrderJson.getReservJSONObject();
 			jsonBack.put("success", true);
 			System.out.println(jsonBack);
+			//{"data":{"cioBedRate":"0","cioCause":"","cioGroupName":"","cioGuestCardCatalog":"散客","cioGuestCardId":"350821199208195131","cioGuestCatalog":"identityCard","cioGuestGender":"male","cioGuestName":"wu","cioGuestType":"普通客人","cioId":"","cioInDateTime":"2016-04-06 18:00","cioIsReservId":"8a9e3cdb53e8fad80153e8fef9520003","cioManNumber":"2","cioOperator":"Admin","cioPaidMoney":0,"cioPaymentModel":"","cioPrctOutDateTime":"2016-04-07 12:00","cioPreOutDateTime":"2016-04-07 12:00","cioState":"","cioTotalRate":0,"cioOrderId":""},"success":true}
+
 			request.setCharacterEncoding("utf-8");   
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();
 			
-			checkin(request, response);
 			out.print(jsonBack);
 		}
 		else{
@@ -185,6 +188,8 @@ public class CheckinController extends MultiActionController {
 			
 			
 			System.out.println(jsonBack);
+			//{"rooms":[{"rmId":"9207","rmPrctPrice":260,"rmState":1,"rmCatalog":"001","rmPrctDiscount":100,"rmSetPrctDiscount":1,"rmSetPrctPrice":260}]}
+
 			request.setCharacterEncoding("utf-8");   
 			response.setContentType("application/json;charset=utf-8");
 			PrintWriter out = response.getWriter();

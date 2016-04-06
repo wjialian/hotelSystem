@@ -224,7 +224,7 @@ public class ReservController extends MultiActionController{
         JSONArray jsonArray = JSONArray.fromObject(jsonObject.get("passwords"));
 		
         String depositS = jsonObject.getString("deposit").trim();
-		//String orderCode = jsonObject.getString("orderCode").trim();
+		String orderCode = jsonObject.getString("orderCode").trim();
 		Float depositF = Float.parseFloat(depositS);
 		depositF = depositF/jsonArray.size();
 		depositS = depositF+"";
@@ -275,7 +275,7 @@ public class ReservController extends MultiActionController{
 			reservOrder.setRoOperator("Admin");
 			reservOrder.setRoPaymentModel("");
 			reservOrder.setRoTotalRate(new BigDecimal(depositS));
-			//reservOrder.setRoOrderId(orderCode);
+			reservOrder.setRoOrderId(orderCode);
 			reservOrder.setRoOrderId("1111110405");
 			reservOrder.setRoPreAssignRoom("");
 			reservOrder.setRoGroupName("");
@@ -355,18 +355,22 @@ public class ReservController extends MultiActionController{
 		System.out.println("reach ReservController updateReserv()");
 		
 		ReservOrder newReservOrder=ReservOrderUtil.createReservOrder(request);
-		String rooms=(String) request.getParameter("roomDataes").trim();
-		JSONArray jsonArray=JSONArray.fromObject(rooms);//[{},{}]	
-		Iterator iterator=jsonArray.iterator();
-		JSONObject jsonObject=new JSONObject();
+		String jsons=(String) request.getParameter("json").trim();
+		JSONObject jsonObject = JSONObject.fromObject(jsons);	
 		
-		String mrcodeid="";
-		String depositS="";
+		String mrcodeid=jsonObject.getString("orderCode").trim();
+		String depositS=jsonObject.getString("deposit").trim();
+		String size=jsonObject.getString("size").trim();
+		Float depositF = Float.parseFloat(depositS);
+		Integer sizei = Integer.parseInt(size);
+		depositF = depositF/sizei;
+		depositS = depositF+"";
+		
 		List<ReservItem> reservItemList=new ArrayList();
 		List<ReservOrder> reservOrderlist =businessService.findReservByMrCodeId(mrcodeid);
 		for(ReservOrder ro : reservOrderlist){
-			ro.setRoPaidMoney(new BigDecimal(depositS));
 			reservItemList = businessService.findReservItemByOrder(ro);
+			ro.setRoPaidMoney(new BigDecimal(depositS));
 			businessService.updateReservOrder(ro, reservItemList);
 		}
 
